@@ -70,17 +70,29 @@ class Board extends Component {
       }
       tblBoard.push(<tr key={x}>{row}</tr>);
     }
-    return tblBoard;
+    return (
+      <table className='Board'>
+        <tbody>{tblBoard}</tbody>
+      </table>
+    );
   }
 
   render() {
-    if(this.state.hasWon) {
-      return <h1>You win!!</h1>
-    }
     return (
-      <table className='Board'>
-        <tbody>{this.generateTableBoard()}</tbody>
-      </table>
+      <div>
+        {this.state.hasWon ? (
+          <div className='winner'>
+            <span className='neon-orange'>You</span>
+            <span className='neon-blue'>Win!</span>
+          </div>
+        ) : (
+          <div>
+            <span className='neon-orange'>Lights</span>
+            <span className='neon-blue'>Out</span>
+            {this.generateTableBoard()}
+          </div>
+        )}
+      </div>
     );
   }
 }
