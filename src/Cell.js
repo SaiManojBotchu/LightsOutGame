@@ -7,13 +7,13 @@ class Cell extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(evt) {
+  handleClick() {
     // call up to the board to flip cells around this cell
-    this.props.flipCellsAroundMe();
+    this.props.flipCellsAroundMe(this.props.coord);
   }
 
   render() {
-    let classes = 'Cell' + (this.props.isLit ? ' Cell-lit' : '');
+    const classes = `Cell${this.props.isLit ? ' Cell-lit' : ''}`;
     return <td className={classes} onClick={this.handleClick} />;
   }
 }

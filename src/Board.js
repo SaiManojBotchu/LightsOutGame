@@ -4,25 +4,27 @@ import './Board.css';
 
 class Board extends Component {
   static defaultProps = {
-    nRows: 5,
-    nCols: 5,
+    nRows: 4,
+    nCols: 4,
     chanceLightStartsOn: 0.25
   };
+
   constructor(props) {
     super(props);
     this.state = {
       board: this.createBoard(),
       hasWon: false
     };
+    this.flipCellsAround = this.flipCellsAround.bind(this);
   }
 
   createBoard() {
-    let board = [];
-    let { nRows, nCols } = this.props;
+    const board = [];
+    const { nRows, nCols, chanceLightStartsOn } = this.props;
     for (let x = 0; x < nRows; x++) {
-      let row = [];
+      const row = [];
       for (let y = 0; y < nCols; y++) {
-        row.push(Math.random() < this.props.chanceLightStartsOn);
+        row.push(Math.random() < chanceLightStartsOn);
       }
       board.push(row);
     }
@@ -30,10 +32,10 @@ class Board extends Component {
   }
 
   flipCellsAround(coord) {
-    let { nRows, nCols } = this.props;
-    let board = this.state.board;
+    const { nRows, nCols } = this.props;
+    const { board } = this.state;
     // for getting x, y coordinates in Number datatype
-    let [x, y] = coord.split('-').map(Number);
+    const [x, y] = coord.split('-').map(Number);
 
     function flipCell(x, y) {
       // if this coord is actually on board, flip it
@@ -47,24 +49,24 @@ class Board extends Component {
     flipCell(x + 1, y); // flip down
     flipCell(x - 1, y); // flip up
 
-    let hasWon = board.every(row => row.every(cell => !cell));
-    // let hasWon = board.every(row => row.every(cell => cell === false));
-
-    this.setState({ board: board, hasWon: hasWon });
+    const hasWon = board.every(row => row.every(cell => !cell));
+    // const hasWon = board.every(row => row.every(cell => cell === false));
+    this.setState({ board, hasWon });
   }
 
   generateTableBoard() {
-    let tblBoard = [];
-    let { nRows, nCols } = this.props;
+    const tblBoard = [];
+    const { nRows, nCols } = this.props;
     for (let x = 0; x < nRows; x++) {
-      let row = [];
+      const row = [];
       for (let y = 0; y < nCols; y++) {
-        let coord = `${x}-${y}`;
+        const coord = `${x}-${y}`;
         row.push(
           <Cell
             key={coord}
             isLit={this.state.board[x][y]}
-            flipCellsAroundMe={() => this.flipCellsAround(coord)}
+            coord={coord}
+            flipCellsAroundMe={this.flipCellsAround}
           />
         );
       }
