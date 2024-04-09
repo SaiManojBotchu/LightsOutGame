@@ -100,3 +100,9 @@ class Board extends Component {
 }
 
 export default Board;
+
+// table
+// -- tbody
+//   -- tr
+//     -- td
+//     -- td
